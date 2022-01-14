@@ -7,6 +7,10 @@
       <el-input v-model="apiListQuery.search" :placeholder="$t('table.search')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('table.search') }}</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
+      <upload-excel-component class="filter-item" :on-success="handleSuccess" :before-upload="beforeUpload" />
+      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-download">
+        <a href="./api.xlsx" download="api模板">模板</a>
+      </el-button>
     </div>
 
     <el-table
@@ -82,10 +86,11 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { createApiInfo, updateApiInfo, getApiInfos, deleteApiInfo } from '@/api/apiInfo'
+import UploadExcelComponent from '@/components/UploadExcel'
+import { createApiInfo, updateApiInfo, getApiInfos, deleteApiInfo, importApiInfos } from '@/api/apiInfo'
 
 export default {
-  components: { Pagination },
+  components: { Pagination, UploadExcelComponent },
   data() {
     return {
       apiList: [],
@@ -204,6 +209,27 @@ export default {
           this.dialogVisible = false
         }
       })
+    },
+    async handleSuccess({ results, header }) {
+      console.log(results)
+      const dataList = results
+      this.temp = {
+        added: false,
+        dataList: dataList
+      }
+      await importApiInfos(this.temp)
+      this.getData()
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+      if (isLt1M) {
+        return true
+      }
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
     }
   }
 }

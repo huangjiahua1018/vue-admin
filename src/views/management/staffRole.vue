@@ -12,6 +12,10 @@
           icon="el-icon-edit"
           @click="handleCreate"
         >{{ $t('table.add') }}</el-button>
+        <upload-excel-component class="filter-item" :on-success="handleSuccess" :before-upload="beforeUpload" />
+        <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-download">
+          <a href="./role.xlsx" download="角色模板">模板</a>
+        </el-button>
       </div>
 
       <el-table
@@ -192,14 +196,15 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getRoles, createRole, updateRole, deleteRole } from '@/api/staffRole'
+import UploadExcelComponent from '@/components/UploadExcel'
+import { getRoles, createRole, updateRole, deleteRole, importStaffRole } from '@/api/staffRole'
 import { getNavigations } from '@/api/navigation'
 import { getNavigationApis } from '@/api/navigationApi'
 import { getRoleNavigations, updateNavigationRole } from '@/api/navigationRole'
 import { getRoleApis, saveRoleApi } from '@/api/roleApi'
 
 export default {
-  components: { Pagination },
+  components: { Pagination, UploadExcelComponent },
   data() {
     return {
       list: [],
@@ -441,6 +446,27 @@ export default {
         title: '修改成功',
         type: 'success'
       })
+    },
+    async handleSuccess({ results, header }) {
+      console.log(results)
+      const dataList = results
+      this.temp = {
+        added: false,
+        dataList: dataList
+      }
+      await importStaffRole(this.temp)
+      this.getData()
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+      if (isLt1M) {
+        return true
+      }
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
     }
   }
 }

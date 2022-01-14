@@ -19,3 +19,7 @@ export function getStaffs(query) {
 export function changePassword(login, changePasswordVM) {
   return request.put('/api/manager/staff/change-password/' + login, changePasswordVM)
 }
+
+export function importStaff(staffVM) {
+  return request.post('/api/manager/staff/import', staffVM)
+}

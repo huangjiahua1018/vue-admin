@@ -15,3 +15,7 @@ export function updateApiInfo(apiVM) {
 export function deleteApiInfo(id) {
   return request.delete('/api/manager/api-info?id=' + id)
 }
+
+export function importApiInfos(apiVM) {
+  return request.post('/api/manager/api-info/import', apiVM)
+}

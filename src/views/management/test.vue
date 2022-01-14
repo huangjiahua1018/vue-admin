@@ -16,6 +16,7 @@ export default {
     }
   },
   created() {
+    console.log(this.temp)
     this.getStaffNavigationApis()
   },
   methods: {

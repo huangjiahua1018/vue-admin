@@ -30,7 +30,7 @@
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
           <el-button type="warning" size="mini" @click="handleChildren(scope.row)">新增下级</el-button>
           <el-button type="primary" size="mini" @click="goOrgStaff(scope.row)">人员</el-button>
-          <el-button type="danger" size="mini" @click="handleDelete(scope.row,'deleted')">{{ $t('table.delete') }}</el-button>
+          <el-button v-if="!scope.row.hasChildren" type="danger" size="mini" @click="handleDelete(scope.row,'deleted')">{{ $t('table.delete') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -178,10 +178,6 @@ export default {
         this.refreshLoadTree(this.$refs.table.store.states.lazyTreeNodeMap, this.maps, this.temp.parentId)
       } catch (err) {
         console.log(err)
-        this.$notify({
-          title: '当前组织有子级，无法删除！',
-          type: 'warning'
-        })
       }
     },
     async createData() {

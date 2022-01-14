@@ -5,6 +5,10 @@
         <el-input v-model="listQuery.search" :placeholder="$t('table.search')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
         <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ $t('table.search') }}</el-button>
         <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button>
+        <UploadExcelComponent class="filter-item" :on-success="handleSuccess" :before-upload="beforeUpload" />
+        <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-download">
+          <a href="./staff.xlsx" download="人员模板">模板</a>
+        </el-button>
       </div>
 
       <el-table
@@ -117,12 +121,13 @@
 
 <script>
 import Pagination from '@/components/Pagination'
+import UploadExcelComponent from '@/components/UploadExcel'
 import { getUserRoles, updateUserRole } from '@/api/userRole'
-import { createStaff, updateStaff, deleteStaff, getStaffs, changePassword } from '@/api/staff'
+import { createStaff, updateStaff, deleteStaff, getStaffs, changePassword, importStaff } from '@/api/staff'
 import { getRoles } from '@/api/staffRole'
 
 export default {
-  components: { Pagination },
+  components: { Pagination, UploadExcelComponent },
   data() {
     return {
       list: [],
@@ -352,6 +357,27 @@ export default {
         title: '修改成功',
         type: 'success'
       })
+    },
+    async handleSuccess({ results, header }) {
+      console.log(results)
+      const dataList = results
+      this.temp = {
+        added: false,
+        dataList: dataList
+      }
+      await importStaff(this.temp)
+      this.getData()
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+      if (isLt1M) {
+        return true
+      }
+      this.$message({
+        message: 'Please do not upload files larger than 1m in size.',
+        type: 'warning'
+      })
+      return false
     }
   }
 }

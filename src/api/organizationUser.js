@@ -9,6 +9,6 @@ export function saveOrganizationUser(query) {
 }
 
 export function deleteOrganizationUser(query) {
-  return request.delete('/api/organization-user', { params: query })
+  return request.delete('/api/manager/organization-user', { params: query })
 }
 

@@ -217,11 +217,7 @@ export default {
         this.getData()
         this.refreshLoadTree(this.$refs.table.store.states.lazyTreeNodeMap, this.maps, this.temp.parentId)
       } catch (err) {
-        // console.log(err)
-        this.$notify({
-          title: '当前菜单有子级或被角色绑定，无法删除！',
-          type: 'warning'
-        })
+        console.log(err)
       }
     },
     goNavigationApi(row) {

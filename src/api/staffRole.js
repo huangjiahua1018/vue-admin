@@ -15,3 +15,7 @@ export function updateRole(roleVM) {
 export function deleteRole(id) {
   return request.delete('/api/manager/role?id=' + id)
 }
+
+export function importStaffRole(roleVM) {
+  return request.post('/api/manager/role/import', roleVM)
+}
