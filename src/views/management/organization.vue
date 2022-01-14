@@ -51,7 +51,6 @@
             <el-input v-model="temp.name" type="text" placeholder="请输入名称" />
           </el-form-item>
         </template>
-
       </el-form>
 
       <el-form v-else ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">

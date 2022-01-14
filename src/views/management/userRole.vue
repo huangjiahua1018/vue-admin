@@ -140,7 +140,8 @@ export default {
       checkAll: true,
       listQuery: {
         page: 0,
-        size: 10
+        size: 10,
+        search: null
       },
       roleListQuery: {
         page: 0,
