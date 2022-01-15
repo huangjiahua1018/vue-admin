@@ -150,7 +150,6 @@ export default {
     },
     handleChildren(row) {
       this.dialogStatus = 'children'
-      console.log(row)
       this.temp = {
         parentId: row.id,
         id: row.parentId,

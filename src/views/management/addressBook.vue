@@ -93,7 +93,6 @@ export default {
       resolve(resp.data)
     },
     async treeNodeClick(data) {
-      console.log(data)
       this.listLoading = true
       this.staffListQuery.organizationId = data.id
       const resp = await getOrganizationUsers(this.staffListQuery)

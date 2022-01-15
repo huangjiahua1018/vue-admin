@@ -184,7 +184,6 @@ export default {
       this.listLoading = true
       const resp = await getNavigations(this.listQuery)
       this.list = resp.data
-      console.log(this.list)
       this.total = Number(resp.headers['x-total-count'])
       this.listLoading = false
     },
@@ -217,7 +216,6 @@ export default {
     },
     handleChildren(row) {
       this.dialogStatus = 'children'
-      console.log(row)
       this.temp = {
         parentId: row.id,
         path: '',
@@ -275,9 +273,6 @@ export default {
     },
     getChildren(listQuery) {
       return getNavigations(listQuery)
-    },
-    updateApi() {
-      console.log('保存修改')
     }
   }
 }

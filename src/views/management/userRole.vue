@@ -360,7 +360,6 @@ export default {
       })
     },
     async handleSuccess({ results, header }) {
-      console.log(results)
       const dataList = results
       this.temp = {
         added: false,
