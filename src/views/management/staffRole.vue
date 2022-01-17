@@ -427,7 +427,7 @@ export default {
       const needDeleteList = []
       this.roleApiList.forEach(item => { // 用原始接口数据与已选择的接口数据对比
         if (!checkedApiList.includes(item)) { // 若已选择的接口数据无该数据则说明可能需要删除
-          if (this.roleApiListTmp.includes(item)) { // 用可能需要删除的数据与懒加载数据对比，若懒加载数据中存在，则说明用户操作过该菜单，需要删除
+          if (this.roleApiListTmp.includes(item)) { // 用可能需要删除的数据与懒加载数据对比，若懒加载数据中存在，则说明用户操作过该菜单，需要删除。（还有一种可能是没有被删除，但由于用户没有点击菜单，所以已选择接口数据中没有显示未懒加载的数据）
             needDeleteList.push(item)
           }
         }
